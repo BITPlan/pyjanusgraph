@@ -1,0 +1,15 @@
+#!/bin/bash
+# WF 2020-04-03
+# wait for command to be launched
+# see https://stackoverflow.com/a/27601038/1497139
+cmd=$1
+host=$2
+port=$3
+echo "Waiting for $cmd to launch on $host:$port..."
+
+while ! nc -z $host $port; do
+  sleep 1 # wait for 1/10 of the second before check again
+  echo -n "."
+done
+
+echo "$cmd launched"

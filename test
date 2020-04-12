@@ -1,0 +1,23 @@
+#!/bin/bash
+# WF 2020-04-03
+# test
+share=$HOME/graphdata
+if [ ! -d $share ]
+then
+  mkdir $share 
+fi
+sudo chgrp docker $share
+sudo chmod g+w $share 
+# start janusgraph in docker image in background
+rm nohup.out
+nohup docker run -i -p 8182:8182 --mount src=$HOME/graphdata,target=/graphdata,type=bind janusgraph/janusgraph&
+./install
+./waitport janusgraph-gremlin localhost 8182
+echo "waiting for janusgraph to be ready"
+until  grep "started at port 8182" nohup.out > /dev/null
+do
+  sleep 1
+  echo -n "."
+done
+tail nohup.out
+python3 -m unittest discover

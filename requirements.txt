@@ -1,0 +1,4 @@
+# 2020-04-12
+# https://pypi.org/project/gremlinpython/
+# latest 3.4.6 released 2020-02-24
+gremlinpython==3.4.6

@@ -10,7 +10,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='pyjanusgraph',
-    version='0.0.1a1',
+    version='0.0.1a2',
 
     packages=['tp',],
     author='Wolfgang Fahl',

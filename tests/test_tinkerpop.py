@@ -9,7 +9,10 @@ import getpass
 from tp.gremlin import RemoteGremlin
 from pathlib import Path
 
-class Test(unittest.TestCase):
+class TestPyJanusGraph(unittest.TestCase):
+    '''
+    pyunit test cases for pyjanusgraph
+    '''
 
     def setUp(self):
         '''
@@ -29,7 +32,7 @@ class Test(unittest.TestCase):
         # open the remote gremlin connection and set up the share point    
         self.rg = RemoteGremlin(self.gremlinserver)
         self.rg.open()
-        self.rg.sharepoint(self.sharepoint, "/graphdata/")
+        self.rg.setSharepoint(self.sharepoint, "/graphdata/")
         pass
 
 

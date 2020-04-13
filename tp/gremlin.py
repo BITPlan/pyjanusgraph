@@ -12,27 +12,40 @@ import csv
 class RemoteGremlin(object):
     '''
     helper for remote gremlin connections
+    
+    :ivar server: the server to connect to
+    :ivar port: the port to connect to
+    :ivar sharepoint: the directory that is the shared with the janusgraph instance e.g. via a docker bind/mount or volume
+    :ivar sharepath: the path o the sharepoint as seens by the janusgraph server
     '''
     debug=False
 
-    def __init__(self, server, port=8182):
+    def __init__(self, server='localhost', port=8182):
         '''
         construct me with the given server and port
+        Args:
+           server(str): the server to use
+           port(int): the port to use
         '''
         self.server=server
         self.port=port    
         
-    def sharepoint(self,sharepoint,sharepath):
+    def setSharepoint(self,sharepoint,sharepath):
         '''
-        set up the sharepoint
+        set up a sharepoint
+        Args:
+           sharepoint(str): the directory that is the shared with the janusgraph instance e.g. via a docker bind/mount or volume
+           sharepath(str): the path o the sharepoint as seens by the janusgraph server
         '''
         self.sharepoint=sharepoint
         self.sharepath=sharepath
         
-        
     def share(self,file):
         '''
         share the given file  and return the path as seen by the server
+        
+        Args:
+           file(str): path to the file to share
         '''
         fbase=os.path.basename(file)
         target=self.sharepoint+fbase
@@ -44,12 +57,16 @@ class RemoteGremlin(object):
     def open(self):
         '''
         open the remote connection
+        
+        Returns:
+           GraphTraversalSource: the remote graph traversal source
         '''
         self.graph = Graph()
         self.url='ws://%s:%s/gremlin' % (self.server,self.port)
         self.connection = DriverRemoteConnection(self.url, 'g')    
         # The connection should be closed on shut down to close open connections with connection.close()
         self.g = self.graph.traversal().withRemote(self.connection)
+        return self.g
 
     def close(self):
         '''
@@ -74,6 +91,9 @@ class TinkerPopAble(object):
     def storeFields(self,fieldList):
         '''
         define the fields to be stored as tinkerpop vertice properties
+        
+        Args:
+           fieldList(list): list of fields to be stored
         '''
         if not hasattr(self,'tpfields'):
             self.tpfields={}
@@ -84,6 +104,9 @@ class TinkerPopAble(object):
     def toVertex(self,g):
         '''
         create a vertex from me
+        
+        Args:
+           g(GraphTraversalSource): where to add me as a vertex
         '''
         label=type(self).__name__;
         t=g.addV(label)
@@ -100,12 +123,19 @@ class TinkerPopAble(object):
     def fromMap(self,pMap):
         '''
         fill my attributes from the given pMap dict
+        
+        Args:
+           pmap(dict): the dict to fill my attributes from
         '''
         for name,value in pMap.items():
             self.__setattr__(name, value[0])    #
             
     @staticmethod
     def fields(instance):     
+        '''
+        Returns:
+           dict: either the vars of the instance or the fields specified by the tpfields attribute
+        '''
         # if there is a pre selection of fields store only these
         if hasattr(instance,'tpfields'):
             tpfields=instance.tpfields    
@@ -116,6 +146,14 @@ class TinkerPopAble(object):
             
     @staticmethod
     def writeCSV(csvfileName,objectList,fieldnames=None):
+        '''
+        write the given objectList to a CSV file
+         
+        Args:
+           csvfileName(str): the path for the CSV File to write to
+           objectList(list): a list of instances for which CSV lines should be created
+           fieldnames(list): an optional list of fieldnames - if set to None the fields will be derived from the first instance in the objectList
+        '''
         if fieldnames is None:
             if len(objectList)<1:
                 raise("writCSV needs at least one object in ObjectList when fieldnames are not specified")
@@ -134,7 +172,13 @@ class TinkerPopAble(object):
     @staticmethod        
     def cache(rg,gfile,clazz,objectList,initFunction):
         '''
-        generic save
+        generic caching
+        
+        Args:
+           gfile(str): the graph storage file 
+           clazz(class): the class of the objects in the objectList
+           objectList(list): a list of instances to fill or read
+           initFunction(function): a function to call to fill the cache
         '''
         g=rg.g
         cachefile=rg.sharepoint+gfile

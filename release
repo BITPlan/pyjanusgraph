@@ -1,7 +1,12 @@
 #!/bin/bash
-# WF 2020-03-26
+# WF 2020-04-13
 # create a release see https://packaging.python.org/tutorials/packaging-projects/
 rm -rf dist
+# create the documentation
 ./doc
+# create a distribution
 python3 setup.py sdist bdist_wheel
-python3 -m twine upload -u __token__ --repository-url https://test.pypi.org/legacy/ dist/*
+# upload the result
+#https://test.pypi.org/legacy/
+pypi=https://upload.pypi.org/legacy/
+python3 -m twine upload -u __token__ --repository-url $pypi dist/*

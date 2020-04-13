@@ -6,6 +6,13 @@
 Welcome to pyjanusgraph's documentation!
 ========================================
 
+
+Links
+-----
+* `PyPi <https://test.pypi.org/project/pyjanusgraph/0.0.1a0/>`_
+* `Github <https://github.com/BITPlan/pyjanusgraph>`_
+* `Wiki <http://wiki.bitplan.com/index.php/Pyjanusgraph>`_
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

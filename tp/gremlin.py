@@ -67,7 +67,7 @@ class RemoteGremlin(object):
         
 class TinkerPopAble(object):
     '''
-    mixing for classes to store and retrieve from python
+    mixin for classes to store and retrieve from tinkerpop graph database
     '''
     debug=False
     

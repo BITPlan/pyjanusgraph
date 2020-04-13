@@ -10,7 +10,7 @@ checkinstalled() {
   fi
 }
 checkinstalled  sphinx-apidoc
-sphinx-apidoc -f -o docs/source . tp
+sphinx-apidoc -f -o docs/source .
 cd docs
 make clean html
 open build/html/index.html

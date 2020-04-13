@@ -5,3 +5,4 @@ pyjanusgraph
    :maxdepth: 4
 
    tests
+   tp

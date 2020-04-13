@@ -9,8 +9,8 @@ Python janusgraph utility library
 [![BITPlan](http://wiki.bitplan.com/images/wiki/thumb/3/38/BITPlanLogoFontLessTransparent.png/198px-BITPlanLogoFontLessTransparent.png)](http://www.bitplan.com)
 
 ## Documentation
-* [PyPi] (https://test.pypi.org/project/pyjanusgraph/0.0.1a0)
-* [Wiki] (http://wiki.bitplan.com/index.php/Pyjanusgraph)
+* [PyPi](https://test.pypi.org/project/pyjanusgraph/0.0.1a0)
+* [Wiki](http://wiki.bitplan.com/index.php/Pyjanusgraph)
 
 ## Links
 * [JanusGraph](https://janusgraph.org/)
